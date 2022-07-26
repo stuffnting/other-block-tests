@@ -1,14 +1,13 @@
 const { registerBlockType } = wp.blocks;
-const { InnerBlocks, useBlockProps, InspectorControls, BlockControls } =
-  wp.blockEditor;
-const { DateTimePicker, PanelBody, TextControl } = wp.components;
+const { InnerBlocks, useBlockProps, InspectorControls } = wp.blockEditor;
+const { PanelBody, TextControl } = wp.components;
 const { useSelect } = wp.data;
 const { useEntityProp } = wp.coreData;
 
 import metadata from "./data-visualisation.json";
 
 const ALLOWED_BLOCKS = ["core/paragraph", "core/heading", "core/list"];
-const META_FIELD_OBJECT_NAME = "_myprefix_dynamic_meta_block_object";
+
 const STYLE = {
   color: "white",
   padding: "20px",
@@ -27,16 +26,25 @@ registerBlockType(metadata, {
 
     const [meta, setMeta] = useEntityProp("postType", postType, "meta");
 
-    const metaFieldValue1 = meta[META_FIELD_OBJECT_NAME].field1 || "";
-    const metaFieldValue2 = meta[META_FIELD_OBJECT_NAME].field2 || "";
+    const metaFieldValue1 =
+      meta[SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME].field1 || "";
+    const metaFieldValue2 =
+      meta[SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME].field2 || "";
 
     // Ths key is which item in the meta field array to use
     function updateMetaValue(newValue, fieldName) {
-      const newMetaObj = Object.assign({}, meta[META_FIELD_OBJECT_NAME], {
-        [fieldName]: newValue,
-      });
+      const newMetaObj = Object.assign(
+        {},
+        meta[SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME],
+        {
+          [fieldName]: newValue,
+        }
+      );
 
-      setMeta({ ...meta, [META_FIELD_OBJECT_NAME]: newMetaObj });
+      setMeta({
+        ...meta,
+        [SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME]: newMetaObj,
+      });
     }
 
     return (

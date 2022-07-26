@@ -12,7 +12,7 @@ if( function_exists('acf_add_options_page') ) {
 	
 }
 
-define('SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME', '_myprefix_dynamic_meta_block_object');
+define('SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME', '_snt_obt_meta_object');
 
 // register custom meta data field
 add_action( 'init', 'snt_obt_data_visualisation_cb_meta' );
@@ -97,5 +97,7 @@ function snt_obt_data_visualisation_script_editor_assets() {
     'editor_script'   => 'snt-obt-data-visualisation-script',
     'render_callback' => 'snt_obt_data_visualisation_cb'
   ) );
+
+  wp_add_inline_script( 'snt-obt-data-visualisation-script', 'const SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME = "' . SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME . '"', 'before' );
 }
 
