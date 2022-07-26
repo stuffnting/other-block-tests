@@ -1,0 +1,7 @@
+{
+  "_NOTE": "This file is needed by plugin.php and needs to be on the server.",
+  "data-visualisation": {
+    "name": "data-visualisation",
+    "include": true
+  }
+}

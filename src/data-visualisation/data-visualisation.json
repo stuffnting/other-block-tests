@@ -1,0 +1,10 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "snt-obt/data-visualisation",
+  "title": "Data Visualisation",
+  "icon": "lightbulb",
+  "category": "widgets",
+  "description": "WP data visualisation tutorial (see README.md)",
+  "editorScript": "snt-obt-data-visualisation-script"
+}
