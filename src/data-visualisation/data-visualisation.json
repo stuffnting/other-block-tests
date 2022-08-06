@@ -5,6 +5,18 @@
   "title": "Data Visualisation",
   "icon": "lightbulb",
   "category": "widgets",
-  "description": "WP data visualisation tutorial (see README.md)",
+  "description": "A block that draws a graph from a Google spreadsheet. The tutorial is at https://www.youtube.com/watch?v=DzN5Wqtq5h8",
+  "keywords": ["graph", "test"],
+  "textdomain": "sntObt",
+  "attributes": {
+    "sheetUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "column": {
+      "type": "string",
+      "default": ""
+    }
+  },
   "editorScript": "snt-obt-data-visualisation-script"
 }

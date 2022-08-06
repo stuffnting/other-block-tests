@@ -1,85 +1,32 @@
 const { registerBlockType } = wp.blocks;
-const { InnerBlocks, useBlockProps, InspectorControls } = wp.blockEditor;
-const { PanelBody, TextControl } = wp.components;
-const { useSelect } = wp.data;
-const { useEntityProp } = wp.coreData;
+const { TextControl } = wp.components;
 
 import metadata from "./data-visualisation.json";
 
-const ALLOWED_BLOCKS = ["core/paragraph", "core/heading", "core/list"];
-
-const STYLE = {
-  color: "white",
-  padding: "20px",
-  background: "midnightblue",
-  border: "5px solid yellow",
-};
-
 registerBlockType(metadata, {
-  edit: () => {
-    const blockProps = useBlockProps({ style: STYLE });
-
-    const postType = useSelect(
-      (select) => select("core/editor").getCurrentPostType(),
-      []
-    );
-
-    const [meta, setMeta] = useEntityProp("postType", postType, "meta");
-
-    const metaFieldValue1 =
-      meta[SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME].field1 || "";
-    const metaFieldValue2 =
-      meta[SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME].field2 || "";
-
-    // Ths key is which item in the meta field array to use
-    function updateMetaValue(newValue, fieldName) {
-      const newMetaObj = Object.assign(
-        {},
-        meta[SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME],
-        {
-          [fieldName]: newValue,
-        }
-      );
-
-      setMeta({
-        ...meta,
-        [SNT_OBT_DATA_VIS_META_FIELD_OBJECT_NAME]: newMetaObj,
-      });
-    }
+  edit: (props) => {
+    const { attributes, setAttributes } = props;
+    const { sheetUrl, column } = attributes;
 
     return (
       <>
-        <div {...blockProps}>
-          <InspectorControls>
-            <PanelBody title="Meta Values" initialOpen={false}>
-              <TextControl
-                label="Text 1"
-                help="Enter some text"
-                value={metaFieldValue1}
-                onChange={(newValue) => updateMetaValue(newValue, "field1")}
-              />
-              <TextControl
-                label="Text 2"
-                help="Enter some text"
-                value={metaFieldValue2}
-                onChange={(newValue) => updateMetaValue(newValue, "field2")}
-              />
-            </PanelBody>
-          </InspectorControls>
-          <p>{metaFieldValue1}</p>
-          <p>{metaFieldValue2}</p>
-          <InnerBlocks allowedBlocks={ALLOWED_BLOCKS} />
-        </div>
+        <TextControl
+          label="Google Sheets URL"
+          help="(Must be publicly viewable.)"
+          value={sheetUrl}
+          onChange={(value) => setAttributes({ sheetUrl: value })}
+        />
+        <TextControl
+          label="Sheet column to use"
+          help="(Must be publicly viewable.)"
+          value={column}
+          onChange={(value) => setAttributes({ column: value })}
+        />
       </>
     );
   },
-  save: (props) => {
-    const blockProps = useBlockProps.save({ style: STYLE });
-
-    return (
-      <div {...blockProps}>
-        <InnerBlocks.Content />
-      </div>
-    );
+  save: () => {
+    // For dynamic blocks return null
+    return null;
   },
 });

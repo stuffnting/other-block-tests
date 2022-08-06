@@ -10,7 +10,7 @@
  * Requires PHP: 7.2
  * License: GPL v3 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain: sntOBE
+ * Text Domain: sntObt
  */
 
 if( !defined( 'ABSPATH') ) {
