@@ -58,8 +58,7 @@ function snt_obt_data_visualisation_cb( $attributes ) {
 
   $processed_body = snt_obt_data_visualisation_get_sheet_data($attributes, $api_key);
   $data = snt_obt_data_visualisation_count_classes( $processed_body );
-
-  $svg = snt_obt_data_visualisation_svg( $data );
+  $svg = snt_obt_data_visualisation_svg( $attributes, $data );
 
   return "<div class='my-dynamic-block'>{$svg}</div>";
 }
@@ -69,6 +68,8 @@ function snt_obt_data_visualisation_cb( $attributes ) {
  * 
  * @param array   $attributes The attributes from the block
  * @param string  $api_key The Google API key
+ * 
+ * @return array  $processed_data The processed data.
  */
 function snt_obt_data_visualisation_get_sheet_data( $attributes, $api_key ) {
   // Extract the Google sheet ID by replacing all the other bits of the URL with nothing
@@ -82,8 +83,11 @@ function snt_obt_data_visualisation_get_sheet_data( $attributes, $api_key ) {
   $range = $attributes['column'];
   $range .= '2%3A'; // Second column, %3A is the escape value for :
   $range .= $attributes['column'];
-  $range .= '1000';
+  $range .= $attributes['numberOfRows'];
 
+  snt_dump( $attributes );
+
+  // Get the data.
   $get_data = new WP_Http();
   $url = 'https://sheets.googleapis.com/v4/spreadsheets/';
   $url .= $sheet_id;
@@ -137,14 +141,17 @@ function snt_obt_data_visualisation_count_classes( $processed_body ) {
 /**
  * Generate the SVG graph
  * 
+ * ***NOTE*** The use of Heredoc to create a multiline string requires PHP 7.3+.
+ * 
+ * @param array $attributes The attributes from the block
  * @param array $data An array containing the count values.
  * 
  * @return string The SVG graph
  */
-function snt_obt_data_visualisation_svg( $data ) {
+function snt_obt_data_visualisation_svg( $attributes, $data ) {
   // Work out the total height of the svg element.
-  $bar_height = 60;
-  $bar_gap = 20;
+  $bar_height = $attributes['barHeight'];
+  $bar_gap = $attributes['barGap'];
   $bottom_margin = 20;
 
   $svg_height = ( sizeof($data) * ( $bar_height + $bar_gap ) ) + $bottom_margin;

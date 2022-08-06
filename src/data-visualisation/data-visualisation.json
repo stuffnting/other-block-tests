@@ -16,6 +16,18 @@
     "column": {
       "type": "string",
       "default": ""
+    },
+    "numberOfRows": {
+      "type": "integer",
+      "default": 1000
+    },
+    "barHeight": {
+      "type": "integer",
+      "default": 0
+    },
+    "barGap": {
+      "type": "integer",
+      "default": 0
     }
   },
   "editorScript": "snt-obt-data-visualisation-script"
