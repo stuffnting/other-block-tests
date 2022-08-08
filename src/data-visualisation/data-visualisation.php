@@ -1,4 +1,11 @@
 <?php
+/**
+ * This block grabs data from a Google spreadsheet and makes
+ * an SVG bar chart.
+ * 
+ * For more details see the README.md file.
+ */
+
 // ACF options page to hold the Google Cloud API key.
 if( function_exists('acf_add_options_page') ) {
 	
